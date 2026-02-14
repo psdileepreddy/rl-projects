@@ -1,0 +1,72 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.pyc
+*.pkl
+*.pdb
+*.egg
+*.egg-info/
+dist/
+build/
+*.whl
+
+# Jupyter Notebooks
+.ipynb_checkpoints/
+*.ipynb
+
+# Environment
+.env
+.venv
+venv/
+ENV/
+env/
+
+# VS Code
+.vscode/
+
+# macOS
+.DS_Store
+
+# Data files
+*.csv
+*.tsv
+*.log
+*.dat
+*.npz
+*.h5
+*.pth
+*.pt
+
+# Misc
+network.p
+
+# Ignore notebooks output
+notebooks/
+
+# Ignore test outputs
+*.pytest_cache/
+
+# Ignore package management
+pip-wheel-metadata/
+
+# Ignore temporary files
+*.tmp
+*.temp
+~*
+
+# Ignore backups
+*.bak
+
+# Ignore coverage reports
+htmlcov/
+.coverage
+.coverage.*
+.cache
+
+# Ignore mypy
+.mypy_cache/
+
+# Ignore bandit
+bandit.yaml

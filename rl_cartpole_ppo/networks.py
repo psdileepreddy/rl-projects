@@ -1,0 +1,30 @@
+import torch
+import torch.nn as nn
+
+class Actor(nn.Module):
+    def __init__(self, state_dim: int, action_dim: int):
+        super().__init__()
+        self.net = nn.Sequential(
+            nn.Linear(state_dim, 64),
+            nn.Tanh(),
+            nn.Linear(64, 64),
+            nn.Tanh(),
+            nn.Linear(64, action_dim),
+        )
+
+    def forward(self, x):
+        return self.net(x)  # logits
+
+class Critic(nn.Module):
+    def __init__(self, state_dim: int):
+        super().__init__()
+        self.net = nn.Sequential(
+            nn.Linear(state_dim, 64),
+            nn.Tanh(),
+            nn.Linear(64, 64),
+            nn.Tanh(),
+            nn.Linear(64, 1),
+        )
+
+    def forward(self, x):
+        return self.net(x).squeeze(-1)  # V(s)
