@@ -46,7 +46,7 @@ class GridWorld:
 
         # goal
         elif next_state == self.goal_state:
-            reward = 100
+            reward = 1
             done = True
 
 

@@ -41,4 +41,4 @@ def evaluate(render=False, episodes=10):
     print("Eval avg:", sum(scores) / len(scores))
 
 if __name__ == "__main__":
-    evaluate(render=False, episodes=10)
+    evaluate(render=True, episodes=3)
