@@ -1,12 +1,14 @@
 import os
 import numpy as np
 import gymnasium as gym
-
+import csv
 from replay_buffer import ReplayBuffer
 from dqn_agent import DQNAgent
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 MODEL_PATH = os.path.join(BASE_DIR, "ddqn_lunarlander.pt")
+LOG_PATH = os.path.join(BASE_DIR, "training_log.csv")
+
 
 def greedy_eval(agent, episodes=5):
     env = gym.make("LunarLander-v3")
@@ -44,7 +46,9 @@ def train():
 
     total_steps = 0
     best_eval = -1e9
-
+    with open(LOG_PATH, "w", newline="") as f:
+        writer = csv.writer(f)
+        writer.writerow(["episode", "episode_reward", "epsilon", "eval_avg", "buffer_size"])
     for ep in range(episodes):
         state, info = env.reset()
         ep_reward = 0.0
@@ -70,7 +74,13 @@ def train():
                 break
 
         epsilon = max(min_epsilon, epsilon * epsilon_decay)
+        eval_val = ""
+        if ep % 50 == 0 and len(buffer) >= min_buffer:
+            eval_val = eval_avg  # from your existing eval
 
+        with open(LOG_PATH, "a", newline="") as f:
+            writer = csv.writer(f)
+            writer.writerow([ep, ep_reward, epsilon, eval_val, len(buffer)])
         if ep % 50 == 0:
             eval_avg = greedy_eval(agent, episodes=5) if len(buffer) >= min_buffer else None
             if eval_avg is not None:

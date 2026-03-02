@@ -17,6 +17,23 @@ def evaluate(render=False, episodes=10):
     agent.load(MODEL_PATH)
 
     scores = []
+    for t in range(1000):
+        q = agent.q_values(state)
+        action = int(np.argmax(q))
+
+        if t % 20 == 0:
+            # Map actions to meaning
+            action_name = {0: "noop", 1: "left", 2: "main", 3: "right"}[action]
+            print(
+                f"t={t:03d} "
+                f"s[x={state[0]:+.2f} y={state[1]:+.2f} vx={state[2]:+.2f} vy={state[3]:+.2f} ang={state[4]:+.2f}] "
+                f"Q={np.round(q, 2)} -> a={action}({action_name})"
+            )
+
+        state, reward, terminated, truncated, info = env.step(action)
+        total += reward
+        if terminated or truncated:
+            break
     for ep in range(episodes):
         state, info = env.reset(seed=2000 + ep)
         total = 0.0

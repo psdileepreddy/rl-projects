@@ -41,7 +41,11 @@ class DQNAgent:
 
         self.optimizer = optim.Adam(self.q_net.parameters(), lr=lr)
         self.loss_fn = nn.SmoothL1Loss()
-
+    def q_values(self, state: np.ndarray) -> np.ndarray:
+        s = torch.tensor(state, dtype=torch.float32, device=self.device).unsqueeze(0)
+        with torch.no_grad():
+            q = self.q_net(s).squeeze(0).cpu().numpy()
+        return q
     def select_action(self, state: np.ndarray, epsilon: float) -> int:
         if np.random.rand() < epsilon:
             return int(np.random.randint(self.action_dim))
